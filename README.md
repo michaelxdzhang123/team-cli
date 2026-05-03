@@ -72,4 +72,12 @@ Run tests with:
 
 ```bash
 python -m pytest -q
+# or using uv
+uv run --group dev pytest -q
+```
+
+## Install with uv
+
+```bash
+uv sync --group dev
 ```
