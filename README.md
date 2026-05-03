@@ -37,14 +37,14 @@ Create `~/.team-ai/team-ai.env` or export variables in your shell.
 
 ```bash
 TEAM_RAGFLOW_MCP_URL=https://ragflow.example.internal/mcp
-TEAM_RAG_TOKEN=change-me
+TEAM_RAG_TOKEN=your-actual-token-here
 ```
 
 ### Generic RAG MCP
 
 ```bash
 TEAM_RAG_MCP_URL=https://rag.example.internal/mcp
-TEAM_RAG_TOKEN=change-me
+TEAM_RAG_TOKEN=your-actual-token-here
 ```
 
 ### Gitea adapter
@@ -69,6 +69,25 @@ KIMI_SHARE_DIR=~/.team-ai/kimi
 team-ai doctor
 team-ai mcp-json --print
 team-ai run --help
+```
+
+### Testing RAGFlow MCP Configuration
+
+To verify your RAGFlow MCP setup:
+
+```bash
+# Set environment variables
+export TEAM_RAGFLOW_MCP_URL="https://your-ragflow-instance.com/mcp"
+export TEAM_RAG_TOKEN="your-actual-token"
+
+# Check configuration
+team-ai doctor
+
+# View generated MCP config (tokens redacted)
+team-ai mcp-json --print
+
+# Test with Kimi CLI
+team-ai run "Test RAGFlow integration"
 ```
 
 ## Common issues
