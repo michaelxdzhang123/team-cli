@@ -1,0 +1,23 @@
+[project]
+name = "team-ai"
+version = "0.1.0"
+description = "A lightweight wrapper for Kimi CLI with team MCP config for Gitea and RAGFlow."
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+authors = [
+  {name = "team-ai"}
+]
+dependencies = [
+  "httpx>=0.24.0"
+]
+classifiers = [
+  "Programming Language :: Python :: 3.12",
+  "Operating System :: OS Independent"
+]
+[project.scripts]
+team-ai = "team_ai.cli:main"
+
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"

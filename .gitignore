@@ -1,0 +1,12 @@
+.env
+*.env
+*.token
+.team-ai/
+.generated/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.venv/
+dist/
+build/
+*.egg-info/
