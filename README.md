@@ -13,6 +13,18 @@
 
 ## Install
 
+### Using uv (recommended)
+
+```bash
+# Install with development dependencies
+uv sync --group dev
+
+# Or install without dev dependencies
+uv sync
+```
+
+### Using pip
+
 ```bash
 python -m pip install -e .
 ```
@@ -68,16 +80,12 @@ team-ai run --help
 
 ## Development
 
-Run tests with:
+After installation, run tests with:
 
 ```bash
-python -m pytest -q
-# or using uv
+# Using uv (recommended)
 uv run --group dev pytest -q
-```
 
-## Install with uv
-
-```bash
-uv sync --group dev
+# Or using pytest directly
+python -m pytest -q
 ```
