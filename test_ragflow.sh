@@ -8,21 +8,29 @@ echo "🧪 Testing RAGFlow MCP Configuration"
 echo "====================================="
 
 # Check if environment variables are set
-if [ -z "$TEAM_RAGFLOW_MCP_URL" ]; then
+if [ -z "$TEAM_RAGFLOW_MCP_URL" ] && [ -z "$TEAM_AI_ENABLE_LOCAL_RAGFLOW" ]; then
     echo "❌ TEAM_RAGFLOW_MCP_URL is not set"
-    echo "   Please set it to your RAGFlow MCP endpoint URL"
+    echo "   Please set it to your RAGFlow MCP endpoint URL or enable local RAGFlow"
+    echo "   Example: export TEAM_AI_ENABLE_LOCAL_RAGFLOW=1"
     exit 1
 fi
 
-if [ -z "$TEAM_RAG_TOKEN" ]; then
+if [ -z "$TEAM_RAG_TOKEN" ] && [ -z "$TEAM_AI_ENABLE_LOCAL_RAGFLOW" ]; then
     echo "❌ TEAM_RAG_TOKEN is not set"
-    echo "   Please set it to your actual RAGFlow token"
+    echo "   Please set it to your actual RAGFlow token when using remote RAGFlow"
     exit 1
 fi
 
 echo "✅ Environment variables are set"
-echo "   TEAM_RAGFLOW_MCP_URL: $TEAM_RAGFLOW_MCP_URL"
-echo "   TEAM_RAG_TOKEN: [REDACTED]"
+if [ -n "$TEAM_RAGFLOW_MCP_URL" ]; then
+    echo "   TEAM_RAGFLOW_MCP_URL: $TEAM_RAGFLOW_MCP_URL"
+fi
+if [ -n "$TEAM_AI_ENABLE_LOCAL_RAGFLOW" ]; then
+    echo "   TEAM_AI_ENABLE_LOCAL_RAGFLOW: $TEAM_AI_ENABLE_LOCAL_RAGFLOW"
+fi
+if [ -n "$TEAM_RAG_TOKEN" ]; then
+    echo "   TEAM_RAG_TOKEN: [REDACTED]"
+fi
 
 # Run doctor command
 echo ""

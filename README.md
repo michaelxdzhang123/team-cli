@@ -32,7 +32,10 @@ python -m pip install -e .
 
 ## Local RAGFlow MCP Server
 
-This project includes a simple RAGFlow MCP server for testing and development:
+This project includes a simple RAGFlow MCP server for testing and development.
+
+> For integrated local usage with `team-ai`, see the section below:
+> [Using the Integrated RAGFlow Server](#using-the-integrated-ragflow-server)
 
 ### Start the server (stdio mode)
 
@@ -121,6 +124,65 @@ KIMI_SHARE_DIR=~/.team-ai/kimi
 team-ai doctor
 team-ai mcp-json --print
 team-ai run --help
+```
+
+## Using the Integrated RAGFlow Server
+
+The local RAGFlow MCP server can be automatically integrated into team-ai:
+
+### Enable local RAGFlow
+
+Option 1: Via environment variable
+```bash
+export TEAM_AI_ENABLE_LOCAL_RAGFLOW=1
+```
+
+Option 2: Via config file (`~/.team-ai/team-ai.env`)
+```bash
+TEAM_AI_ENABLE_LOCAL_RAGFLOW=1
+```
+
+### Verify integration
+
+```bash
+# Check status
+team-ai doctor
+
+# You should see: rag_mode: local_ragflow
+```
+
+### View MCP configuration
+
+```bash
+# Shows the generated MCP config including the local RAGFlow server
+team-ai mcp-json --print
+```
+
+### Use with Kimi CLI
+
+```bash
+# Query the local RAGFlow database
+team-ai run "What do we know about AI?"
+
+# The RAGFlow tools will be available:
+# - rag_search: Search documents
+# - rag_get_doc: Get specific document
+# - rag_answer_with_sources: Answer with source citations
+```
+
+### Combining with remote RAGFlow
+
+You can use both local and remote RAGFlow servers simultaneously:
+
+```bash
+export TEAM_AI_ENABLE_LOCAL_RAGFLOW=1
+export TEAM_RAGFLOW_MCP_URL=https://remote-ragflow.example.com/mcp
+export TEAM_RAG_TOKEN=your-token
+
+# MCP config will include both:
+# - team-ragflow-local (stdio server)
+# - team-ragflow (HTTP remote server)
+team-ai run "Query both local and remote RAGFlow"
 ```
 
 ### Testing RAGFlow MCP Configuration
