@@ -41,6 +41,7 @@ class Settings:
     rag_search_path: str
     rag_doc_path: str
     rag_search_method: str
+    enable_local_ragflow: bool
 
     @classmethod
     def from_env(cls, project_root: Path) -> "Settings":
@@ -76,6 +77,7 @@ class Settings:
             rag_search_path=env.get("TEAM_RAG_SEARCH_PATH", "/search"),
             rag_doc_path=env.get("TEAM_RAG_DOC_PATH", "/doc"),
             rag_search_method=env.get("TEAM_RAG_SEARCH_METHOD", "POST").upper(),
+            enable_local_ragflow=_env_bool(env.get("TEAM_AI_ENABLE_LOCAL_RAGFLOW"), False),
         )
 
     def validate_for_mcp(self) -> None:

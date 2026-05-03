@@ -10,6 +10,9 @@ import sys
 import time
 from pathlib import Path
 
+import pytest
+
+@pytest.mark.asyncio
 async def test_stdio_server():
     """Test the stdio mode of the RAGFlow server."""
     print("🧪 Testing RAGFlow MCP Server (stdio mode)...")
@@ -98,6 +101,7 @@ async def test_stdio_server():
         server_process.terminate()
         server_process.wait()
 
+@pytest.mark.asyncio
 async def test_http_server():
     """Test the HTTP mode of the RAGFlow server."""
     print("🌐 Testing RAGFlow MCP Server (HTTP mode)...")

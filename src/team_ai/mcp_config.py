@@ -21,6 +21,16 @@ def build_mcp_config(settings: Settings) -> dict[str, Any]:
         mcp_servers["team-rag"] = _build_rag_server(settings.rag_mcp_url, settings.rag_token)
     if settings.ragflow_mcp_url:
         mcp_servers["team-ragflow"] = _build_rag_server(settings.ragflow_mcp_url, settings.rag_token)
+    if settings.enable_local_ragflow:
+        # Get the path to the ragflow_server.py script
+        import team_ai
+        team_ai_root = Path(team_ai.__file__).parent.parent.parent
+        ragflow_script = team_ai_root / "ragflow_server.py"
+        mcp_servers["team-ragflow-local"] = {
+            "command": sys.executable,
+            "args": [str(ragflow_script)],
+            "env": {},
+        }
     if settings.gitea_base_url:
         env_vars = {
             "GITEA_BASE_URL": settings.gitea_base_url,

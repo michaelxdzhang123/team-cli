@@ -41,7 +41,9 @@ def _print_doctor(settings: Settings, args: argparse.Namespace) -> None:
 
     print(f"TEAM_AI_HOME: {settings.team_ai_home}")
     print(f"KIMI_SHARE_DIR: {settings.kimi_share_dir}")
-    if settings.ragflow_mcp_url:
+    if settings.enable_local_ragflow:
+        print("rag_mode: local_ragflow")
+    elif settings.ragflow_mcp_url:
         print("rag_mode: ragflow_mcp_url")
     elif settings.rag_mcp_url:
         print("rag_mode: rag_mcp_url")
