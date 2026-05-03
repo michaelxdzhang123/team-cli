@@ -9,7 +9,8 @@ authors = [
   {name = "team-ai"}
 ]
 dependencies = [
-  "httpx>=0.24.0"
+  "fastmcp>=3.2.4",
+  "httpx>=0.24.0",
 ]
 classifiers = [
   "Programming Language :: Python :: 3.12",
@@ -25,4 +26,5 @@ build-backend = "setuptools.build_meta"
 [dependency-groups]
 dev = [
   "pytest>=7.0.0",
+  "fastmcp>=3.0.0",
 ]
