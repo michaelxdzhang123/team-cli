@@ -5,6 +5,11 @@ from team_ai.config import Settings
 
 
 def test_settings_loads_from_env(tmp_path: Path, monkeypatch: object) -> None:
+    # Clear any existing env vars that might interfere
+    monkeypatch.delenv("TEAM_RAGFLOW_MCP_URL", raising=False)
+    monkeypatch.delenv("TEAM_RAG_MCP_URL", raising=False)
+    monkeypatch.delenv("TEAM_RAG_TOKEN", raising=False)
+
     env_file = tmp_path / "team-ai.env"
     env_file.write_text("TEAM_AI_HOME=~/my-team-ai\nTEAM_RAGFLOW_MCP_URL=https://ragflow.example/mcp\nTEAM_RAG_TOKEN=secret123\n")
     monkeypatch.setenv("TEAM_AI_ENV_FILE", str(env_file))

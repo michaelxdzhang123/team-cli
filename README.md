@@ -80,6 +80,10 @@ To verify your RAGFlow MCP setup:
 export TEAM_RAGFLOW_MCP_URL="https://your-ragflow-instance.com/mcp"
 export TEAM_RAG_TOKEN="your-actual-token"
 
+# Run the automated test script
+./test_ragflow.sh
+
+# Or test manually:
 # Check configuration
 team-ai doctor
 
