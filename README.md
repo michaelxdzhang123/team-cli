@@ -1,6 +1,6 @@
 # team-ai
 
-`team-ai` is a lightweight wrapper for Kimi CLI that generates team MCP configuration and supports direct RAGFlow MCP integration.
+`team-ai` is a lightweight wrapper for open source python based CLI that generates team MCP configuration and supports direct RAGFlow MCP integration, and customize our team's requirements
 
 ## What this does
 
@@ -51,19 +51,20 @@ uv run python ragflow_server.py
 uv run python boot_ragflow.py --mode http --port 8000
 
 # Or use the launcher script
-python boot_ragflow.py --mode http --host 0.0.0.0 --port 8001
+uv run python boot_ragflow.py --mode http --host 0.0.0.0 --port 8001
 ```
 
 ### Test the server
 
 ```bash
-# Test stdio mode with MCP client
-echo '{"jsonrpc": "2.0", "id": 1, "method": "tools/list"}' | uv run python ragflow_server.py
+# Test stdio mode with MCP client (requires initialize handshake)
+uv run pytest test_ragflow_server.py -v
 
-# Test HTTP mode (server provides MCP over HTTP)
+# Test HTTP mode (fastmcp 3.2.4 uses StreamableHTTP)
 curl -X POST http://localhost:8000/mcp \
+  -H "Accept: application/json, text/event-stream" \
   -H "Content-Type: application/json" \
-  -d '{"jsonrpc": "2.0", "id": 1, "method": "tools/list", "params": {}}'
+  -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"test","version":"1.0"}}}'
 ```
 
 ### Available tools
@@ -98,8 +99,8 @@ For testing with the local server:
 # Use local HTTP server
 TEAM_RAGFLOW_MCP_URL=http://localhost:8000/mcp
 
-# Or use stdio mode (configure in team-ai.env)
-# TEAM_RAGFLOW_MCP_URL=stdio://python ragflow_server.py
+# Or enable the built-in local stdio server
+TEAM_AI_ENABLE_LOCAL_RAGFLOW=1
 ```
 
 ### Gitea adapter
@@ -121,9 +122,9 @@ KIMI_SHARE_DIR=~/.team-ai/kimi
 ## Running
 
 ```bash
-team-ai doctor
-team-ai mcp-json --print
-team-ai run --help
+uv run team-ai doctor
+uv run team-ai mcp-json --print
+uv run team-ai run --help
 ```
 
 ## Using the Integrated RAGFlow Server
@@ -146,7 +147,7 @@ TEAM_AI_ENABLE_LOCAL_RAGFLOW=1
 
 ```bash
 # Check status
-team-ai doctor
+uv run team-ai doctor
 
 # You should see: rag_mode: local_ragflow
 ```
@@ -155,14 +156,14 @@ team-ai doctor
 
 ```bash
 # Shows the generated MCP config including the local RAGFlow server
-team-ai mcp-json --print
+uv run team-ai mcp-json --print
 ```
 
 ### Use with Kimi CLI
 
 ```bash
 # Query the local RAGFlow database
-team-ai run "What do we know about AI?"
+uv run team-ai run "What do we know about AI?"
 
 # The RAGFlow tools will be available:
 # - rag_search: Search documents
@@ -182,7 +183,7 @@ export TEAM_RAG_TOKEN=your-token
 # MCP config will include both:
 # - team-ragflow-local (stdio server)
 # - team-ragflow (HTTP remote server)
-team-ai run "Query both local and remote RAGFlow"
+uv run team-ai run "Query both local and remote RAGFlow"
 ```
 
 ### Testing RAGFlow MCP Configuration
@@ -199,19 +200,19 @@ export TEAM_RAG_TOKEN="your-actual-token"
 
 # Or test manually:
 # Check configuration
-team-ai doctor
+uv run team-ai doctor
 
 # View generated MCP config (tokens redacted)
-team-ai mcp-json --print
+uv run team-ai mcp-json --print
 
 # Test with Kimi CLI
-team-ai run "Test RAGFlow integration"
+uv run team-ai run "Test RAGFlow integration"
 ```
 
 ## Common issues
 
 - `kimi` not found: install Kimi CLI and make sure it is on `PATH`.
-- `--mcp-config-file` unsupported: your Kimi version may be too old.
+- `--mcp-config-file` not detected: run `kimi --help | grep mcp-config` to verify.
 - Gitea 401/403: check `GITEA_TOKEN` and `GITEA_AUTH_SCHEME`.
 - RAGFlow connection failed: check `TEAM_RAGFLOW_MCP_URL`.
 
@@ -221,7 +222,7 @@ After installation, run tests with:
 
 ```bash
 # Using uv (recommended)
-uv run --group dev pytest -q
+uv run pytest -q
 
 # Or using pytest directly
 python -m pytest -q
